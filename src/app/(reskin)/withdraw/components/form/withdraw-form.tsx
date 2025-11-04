@@ -31,7 +31,7 @@ export const WithdrawForm = () => {
   const isConnected = !!stxAddress;
   const setShowConnectWallet = useSetAtom(showConnectWalletAtom);
 
-  const { addressValidationSchema, amountValidationSchema } =
+  const { addressValidationSchema, amountValidationSchema, satsBalance } =
     useWithdrawalValidation();
   const withdrawalSchema = useMemo(() => {
     return yup.object().shape({
@@ -125,6 +125,7 @@ export const WithdrawForm = () => {
                     return touched.amount && handleEnter(errors.amount);
                   }}
                   error={touched.amount && errors.amount}
+                  balance={satsBalance}
                 />
               )}
 

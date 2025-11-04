@@ -12,6 +12,7 @@ export const AmountInput = ({
   onPressEnter,
   isEditable,
   isDisabled,
+  balance,
 }: {
   isReadonly: boolean;
   onClickEdit?: () => void;
@@ -20,6 +21,7 @@ export const AmountInput = ({
   onPressEnter?: () => void;
   isEditable?: boolean;
   isDisabled?: boolean;
+  balance?: number;
 }) => {
   return (
     <InputContainer
@@ -30,10 +32,17 @@ export const AmountInput = ({
       readonlyValue={value}
     >
       <div
-        className={`md:ml-14 text-black min-h-48 rounded-2xl bg-transparent border p-3 ${error ? "border-red-500" : "border-black dark:border-white border-opacity-20 dark:border-opacity-20"}`}
+        className={`md:ml-14 min-h-48 rounded-2xl bg-transparent border pt-6 pb-3 pr-3 pl-8 ${error ? "border-red-500" : "border-black dark:border-white border-opacity-20 dark:border-opacity-20"}`}
       >
-        <div className="bg-lightGray dark:bg-input-label-dark dark:text-white flex items-center justify-center rounded-full w-28 h-10">
-          sBTC
+        <div className="flex items-center justify-between mb-2">
+          <div className="uppercase text-xl tracking-normal text-gray-500 dark:text-gray-400">
+            Withdraw sBTC
+          </div>
+          {balance !== undefined && balance !== Infinity && (
+            <div className="text-xs text-gray-600 dark:text-gray-300 font-matter-mono italic opacity-50">
+              {(balance / 1e8).toLocaleString(undefined, { maximumFractionDigits: 8 })} sBTC available
+            </div>
+          )}
         </div>
         <Field name="amount" placeholder="Amount">
           {({ field, meta, form }: FieldProps) => {
@@ -72,9 +81,8 @@ export const AmountInput = ({
                     }
                   }}
                   autoFocus
-                  className="text-black dark:text-white w-full bg-transparent break-all text-5xl tracking-tight h-8 placeholder:text-xl placeholder:tracking-normal text-center placeholder:text-left"
+                  className="!text-black dark:!text-white w-full bg-transparent break-all text-5xl tracking-tight h-8 text-center"
                   {...fieldProps}
-                  placeholder="Enter sBTC amount to withdraw"
                 />
                 {meta.touched && meta.error ? (
                   <div className="text-red-500">{meta.error}</div>
