@@ -16,13 +16,77 @@ const config: Config = {
         "spin-slow": "spin 15s linear infinite",
       },
       colors: {
+        /* ===== EXPLORER SAND PALETTE ===== */
+        "sand": {
+          50: "var(--neutral-sand-50)",
+          100: "var(--neutral-sand-100)",
+          150: "var(--neutral-sand-150)",
+          200: "var(--neutral-sand-200)",
+          300: "var(--neutral-sand-300)",
+          400: "var(--neutral-sand-400)",
+          500: "var(--neutral-sand-500)",
+          600: "var(--neutral-sand-600)",
+          700: "var(--neutral-sand-700)",
+          800: "var(--neutral-sand-800)",
+          900: "var(--neutral-sand-900)",
+          950: "var(--neutral-sand-950)",
+          1000: "var(--neutral-sand-1000)",
+        },
+        /* ===== STACKS ACCENT ===== */
+        "stacks": {
+          100: "var(--accent-stacks-100)",
+          200: "var(--accent-stacks-200)",
+          300: "var(--accent-stacks-300)",
+          400: "var(--accent-stacks-400)",
+          500: "var(--accent-stacks-500)",
+          600: "var(--accent-stacks-600)",
+          700: "var(--accent-stacks-700)",
+        },
+        /* ===== BITCOIN ACCENT ===== */
+        "bitcoin": {
+          100: "var(--accent-bitcoin-100)",
+          200: "var(--accent-bitcoin-200)",
+          300: "var(--accent-bitcoin-300)",
+          400: "var(--accent-bitcoin-400)",
+          500: "var(--accent-bitcoin-500)",
+          600: "var(--accent-bitcoin-600)",
+          700: "var(--accent-bitcoin-700)",
+        },
+        /* ===== SEMANTIC COLORS ===== */
+        "surface": {
+          primary: "var(--surface-primary)",
+          secondary: "var(--surface-secondary)",
+          tertiary: "var(--surface-tertiary)",
+          fourth: "var(--surface-fourth)",
+        },
+        "text": {
+          primary: "var(--text-primary)",
+          secondary: "var(--text-secondary)",
+          tertiary: "var(--text-tertiary)",
+        },
+        "explorer-border": {
+          primary: "var(--border-primary)",
+          secondary: "var(--border-secondary)",
+        },
+        /* ===== FEEDBACK COLORS ===== */
+        "feedback": {
+          "green-100": "var(--feedback-green-100)",
+          "green-500": "var(--feedback-green-500)",
+          "green-600": "var(--feedback-green-600)",
+          "red-100": "var(--feedback-red-100)",
+          "red-400": "var(--feedback-red-400)",
+          "red-500": "var(--feedback-red-500)",
+          "yellow-100": "var(--feedback-yellow-100)",
+          "yellow-500": "var(--feedback-yellow-500)",
+          "blue-500": "var(--feedback-blue-500)",
+        },
+        /* ===== LEGACY COLORS (kept for compatibility) ===== */
         orange: "#FD9D41",
         lightOrange: "#FFF6EC",
         darkGray: "#6C6C6C",
         midGray: "#D7D7D7",
         gray: "#B9B9B9",
         lightGray: "#F5F5F5",
-        sand: "#F3F2F0",
         "reskin-dark-gray": "#272628",
         "dark-reskin-border-gray": "#333135",
         "ship-gray": "#333135",

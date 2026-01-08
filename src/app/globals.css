@@ -4,6 +4,72 @@
 
 @layer base {
   :root {
+    /* ===== EXPLORER SAND NEUTRAL PALETTE ===== */
+    --neutral-white: #ffffff;
+    --neutral-sand-50: #f7f6f5;
+    --neutral-sand-100: #f3f2f0;
+    --neutral-sand-150: #eae8e6;
+    --neutral-sand-200: #d5d3d1;
+    --neutral-sand-300: #bfbdba;
+    --neutral-sand-400: #95918c;
+    --neutral-sand-500: #777470;
+    --neutral-sand-600: #595754;
+    --neutral-sand-700: #3c3a38;
+    --neutral-sand-800: #2d2c2a;
+    --neutral-sand-900: #211f1f;
+    --neutral-sand-950: #181716;
+    --neutral-sand-1000: #0f0f0e;
+    --neutral-black: #000000;
+
+    /* ===== STACKS ACCENT COLORS ===== */
+    --accent-stacks-100: #FFDFD1;
+    --accent-stacks-200: #FFC2A8;
+    --accent-stacks-300: #FFA57F;
+    --accent-stacks-400: #FF8761;
+    --accent-stacks-500: #FC6432;
+    --accent-stacks-600: #CC4900;
+    --accent-stacks-700: #9C310D;
+
+    /* ===== BITCOIN ACCENT COLORS ===== */
+    --accent-bitcoin-100: #FFDFC1;
+    --accent-bitcoin-200: #FFD1A7;
+    --accent-bitcoin-300: #FFC288;
+    --accent-bitcoin-400: #FFAD65;
+    --accent-bitcoin-500: #FF9835;
+    --accent-bitcoin-600: #E17C18;
+    --accent-bitcoin-700: #FF8B00;
+
+    /* ===== FEEDBACK COLORS ===== */
+    --feedback-green-100: #C2E7D0;
+    --feedback-green-200: #adddc0;
+    --feedback-green-500: #30a46c;
+    --feedback-green-600: #218358;
+    --feedback-green-900: #174832;
+    --feedback-red-100: #FFE9E9;
+    --feedback-red-200: #FFCACA;
+    --feedback-red-400: #F06E76;
+    --feedback-red-500: #E32A35;
+    --feedback-red-900: #72151B;
+    --feedback-yellow-100: #fefce9;
+    --feedback-yellow-500: #f3dc00;
+    --feedback-yellow-700: #a99100;
+    --feedback-blue-500: #2C8DFF;
+    --feedback-blue-600: #0070DD;
+
+    /* ===== SEMANTIC TOKENS (Light Mode) ===== */
+    --surface-primary: var(--neutral-sand-150);
+    --surface-secondary: var(--neutral-sand-100);
+    --surface-tertiary: var(--neutral-sand-50);
+    --surface-fourth: var(--neutral-white);
+    --text-primary: var(--neutral-sand-1000);
+    --text-secondary: var(--neutral-sand-600);
+    --text-tertiary: var(--neutral-sand-400);
+    --border-primary: var(--neutral-sand-300);
+    --border-secondary: var(--neutral-sand-200);
+    --icon-primary: var(--neutral-sand-1000);
+    --icon-secondary: var(--neutral-sand-600);
+
+    /* Legacy vars for compatibility */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -31,6 +97,20 @@
     --radius: 0.5rem
   }
   .dark {
+    /* ===== SEMANTIC TOKENS (Dark Mode) ===== */
+    --surface-primary: var(--neutral-sand-900);
+    --surface-secondary: var(--neutral-sand-950);
+    --surface-tertiary: var(--neutral-sand-1000);
+    --surface-fourth: var(--neutral-sand-800);
+    --text-primary: var(--neutral-sand-100);
+    --text-secondary: var(--neutral-sand-400);
+    --text-tertiary: var(--neutral-sand-500);
+    --border-primary: var(--neutral-sand-600);
+    --border-secondary: var(--neutral-sand-700);
+    --icon-primary: var(--neutral-sand-100);
+    --icon-secondary: var(--neutral-sand-400);
+
+    /* Legacy vars for compatibility */
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
