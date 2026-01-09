@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
   MOCK_DATA,
@@ -17,6 +18,7 @@ const MOCK_UTXO_DATA = {
 };
 
 export default function DepositPreviewPage() {
+  const router = useRouter();
   const [amount, setAmount] = useState("");
   const [stxAddress, setStxAddress] = useState(MOCK_DATA.addresses.stacks);
   const [touched, setTouched] = useState({ amount: false, address: false });
@@ -38,23 +40,9 @@ export default function DepositPreviewPage() {
         : null
       : null;
 
-  const handleShowToast = () => {
-    toast.success("Transaction submitted!", {
-      description: (
-        <div className="flex flex-col gap-1">
-          <span>Depositing {amount} BTC</span>
-          <a
-            href="https://mempool.space/tx/abc123"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-stacks-500 hover:text-stacks-600 underline text-xs"
-          >
-            View on Mempool
-          </a>
-        </div>
-      ),
-      duration: 5000,
-    });
+  const handleSubmit = () => {
+    // Navigate to transaction status page
+    router.push("/preview/transaction");
   };
 
   return (
@@ -247,7 +235,7 @@ export default function DepositPreviewPage() {
 
         {/* ===== 6. ACTION LAYER (Primary CTA) ===== */}
         <button
-          onClick={handleShowToast}
+          onClick={handleSubmit}
           disabled={!amount || !!amountError}
           className="
             w-full h-14 rounded-xl font-semibold text-base

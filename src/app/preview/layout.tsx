@@ -47,6 +47,7 @@ export default function PreviewLayout({
           <div className="flex gap-1">
             <PreviewNavLink href="/preview" label="Deposit" exact />
             <PreviewNavLink href="/preview/withdraw" label="Withdraw" />
+            <PreviewNavLink href="/preview/transaction" label="Tx Status" />
             <PreviewNavLink href="/preview/history" label="History" />
           </div>
         </div>
