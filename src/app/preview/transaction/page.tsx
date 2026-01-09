@@ -16,12 +16,18 @@ interface TransactionStep {
   id: TransactionState;
   label: string;
   description: string;
+  tooltip?: string;
 }
 
 const STEPS: TransactionStep[] = [
   { id: "signing", label: "Sign Transaction", description: "Approve in your wallet" },
   { id: "broadcasting", label: "Broadcasting", description: "Sending to Bitcoin network" },
-  { id: "confirming", label: "Confirming", description: "Waiting for confirmations" },
+  {
+    id: "confirming",
+    label: "Confirming",
+    description: "Waiting for confirmations",
+    tooltip: "Bitcoin requires multiple block confirmations to ensure transaction security. Each block takes ~10 minutes on average."
+  },
   { id: "processing", label: "Minting sBTC", description: "Processing on Stacks" },
   { id: "complete", label: "Complete", description: "Transaction successful" },
 ];
@@ -37,6 +43,20 @@ export default function TransactionPreviewPage() {
   const [currentState, setCurrentState] = useState<TransactionState>("signing");
   const [confirmations, setConfirmations] = useState(0);
   const [autoAdvance, setAutoAdvance] = useState(false);
+  const [showTooltip, setShowTooltip] = useState<string | null>(null);
+
+  // Calculate estimated time remaining based on confirmations
+  const getEstimatedTimeRemaining = () => {
+    if (currentState === "signing") return null;
+    if (currentState === "broadcasting") return "~15 mins";
+    if (currentState === "confirming") {
+      const remainingBlocks = 6 - confirmations;
+      if (remainingBlocks <= 0) return "< 1 min";
+      return `~${remainingBlocks * 10} mins`;
+    }
+    if (currentState === "processing") return "< 2 mins";
+    return null;
+  };
 
   // Auto-advance simulation
   useEffect(() => {
@@ -134,6 +154,36 @@ export default function TransactionPreviewPage() {
                         <span className="animate-pulse text-stacks-500">●</span>
                       </span>
                     )}
+                    {/* Educational tooltip icon */}
+                    {step.tooltip && (
+                      <div className="relative">
+                        <button
+                          onClick={() => setShowTooltip(showTooltip === step.id ? null : step.id)}
+                          className="text-text-tertiary hover:text-text-secondary transition-colors"
+                          aria-label="Learn more"
+                        >
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                          </svg>
+                        </button>
+                        {/* Tooltip popup */}
+                        {showTooltip === step.id && (
+                          <div className="absolute left-0 top-6 z-10 w-64 p-3 bg-surface-fourth border border-explorer-border-secondary rounded-lg shadow-lg">
+                            <p className="text-xs text-text-secondary leading-relaxed">
+                              {step.tooltip}
+                            </p>
+                            <button
+                              onClick={() => setShowTooltip(null)}
+                              className="absolute top-2 right-2 text-text-tertiary hover:text-text-secondary"
+                            >
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <p className={`
                     text-xs mt-0.5
@@ -227,7 +277,7 @@ export default function TransactionPreviewPage() {
 
         {/* Pending/Processing States - Action Area */}
         {currentState !== "complete" && currentState !== "failed" && (
-          <div className="pt-2">
+          <div className="pt-2 space-y-4">
             {currentState === "signing" && (
               <div className="text-center text-sm text-text-secondary">
                 <p>Please approve the transaction in your wallet</p>
@@ -242,8 +292,23 @@ export default function TransactionPreviewPage() {
                   </svg>
                   <span>Processing your transaction...</span>
                 </div>
-                <p className="text-xs text-text-tertiary">
-                  This usually takes ~{MOCK_DATA.estimatedConfirmationTime} minutes
+                {/* Dynamic time estimate */}
+                {getEstimatedTimeRemaining() && (
+                  <p className="text-sm text-text-secondary">
+                    Estimated time remaining: <span className="font-medium">{getEstimatedTimeRemaining()}</span>
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Safe to close message */}
+            {(currentState === "broadcasting" || currentState === "confirming" || currentState === "processing") && (
+              <div className="flex items-center justify-center gap-2 px-4 py-3 bg-surface-secondary/50 rounded-lg">
+                <svg className="w-4 h-4 text-feedback-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-xs text-text-secondary">
+                  You can safely close this tab. We'll continue processing your transaction.
                 </p>
               </div>
             )}
