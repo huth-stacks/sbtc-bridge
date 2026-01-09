@@ -52,7 +52,7 @@ export default function TransactionPreviewPage() {
   // Calculate estimated time remaining based on confirmations
   const getEstimatedTimeRemaining = () => {
     if (currentState === "signing") return null;
-    if (currentState === "broadcasting") return "~15 mins";
+    if (currentState === "broadcasting") return "~60 mins";
     if (currentState === "confirming") {
       const remainingBlocks = 6 - confirmations;
       if (remainingBlocks <= 0) return "< 1 min";

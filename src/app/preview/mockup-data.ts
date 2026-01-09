@@ -38,7 +38,7 @@ export const MOCK_DATA = {
       confirmations: 0,
     },
   ],
-  estimatedConfirmationTime: 15, // minutes (dynamic would come from mempool API)
+  estimatedConfirmationTime: 60, // minutes (~6 Bitcoin blocks)
   mintCap: {
     current: 500, // BTC remaining
     total: 1000, // Total cap
