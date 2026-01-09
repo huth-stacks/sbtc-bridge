@@ -3,7 +3,7 @@
 import { MOCK_DATA, formatUsd } from "../mockup-data";
 
 export function ProtocolStatsBar() {
-  const { protocolStats, btcPrice } = MOCK_DATA;
+  const { protocolStats } = MOCK_DATA;
 
   return (
     <div className="border-b border-explorer-border-secondary bg-surface-fourth dark:bg-surface-fourth">

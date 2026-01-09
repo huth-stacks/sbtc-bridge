@@ -1,7 +1,5 @@
 "use client";
 
-import { MOCK_DATA } from "../mockup-data";
-
 export default function ZeroStatePage() {
   return (
     <div className="flex flex-col items-center min-h-[70vh] py-12">
