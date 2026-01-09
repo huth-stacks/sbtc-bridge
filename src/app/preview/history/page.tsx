@@ -1,6 +1,6 @@
 "use client";
 
-import { MOCK_DATA, elideAddress, formatUsd, statusColors } from "../mockup-data";
+import { MOCK_DATA, formatUsd, statusColors } from "../mockup-data";
 
 function formatTimeAgo(date: Date): string {
   const seconds = Math.floor((Date.now() - date.getTime()) / 1000);

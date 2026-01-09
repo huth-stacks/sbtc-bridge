@@ -4,9 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   MOCK_DATA,
-  formatBtc,
   formatUsd,
-  elideAddress,
 } from "../mockup-data";
 
 export default function WithdrawPreviewPage() {

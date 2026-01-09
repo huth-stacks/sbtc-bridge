@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import {
   MOCK_DATA,
-  formatBtc,
   formatUsd,
   elideAddress,
 } from "./mockup-data";
