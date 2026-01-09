@@ -3,6 +3,7 @@
 import { Toaster } from "sonner";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ProtocolStatsBar } from "./components/protocol-stats-bar";
 
 export default function PreviewLayout({
   children,
@@ -41,11 +42,15 @@ export default function PreviewLayout({
         </div>
       </header>
 
+      {/* Protocol Stats Bar (Trust Header) */}
+      <ProtocolStatsBar />
+
       {/* Preview Navigation */}
       <nav className="border-b border-explorer-border-secondary bg-surface-fourth dark:bg-surface-fourth">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex gap-1">
             <PreviewNavLink href="/preview/mockup-index" label="Overview" />
+            <PreviewNavLink href="/preview/zero-state" label="Zero State" />
             <PreviewNavLink href="/preview" label="Deposit" exact />
             <PreviewNavLink href="/preview/withdraw" label="Withdraw" />
             <PreviewNavLink href="/preview/transaction" label="Tx Status" />

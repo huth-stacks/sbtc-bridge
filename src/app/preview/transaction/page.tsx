@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { MOCK_DATA, formatUsd } from "../mockup-data";
+import { MOCK_DATA, formatUsd, elideAddress } from "../mockup-data";
 
 type TransactionState =
   | "signing"
@@ -34,8 +34,11 @@ const STEPS: TransactionStep[] = [
 
 const MOCK_TX = {
   amount: 0.1,
+  networkFee: 0.00008,
+  receiveAmount: 0.09992, // amount - networkFee
   btcTxHash: "abc123def456789abc123def456789abc123def456789abc123def456789abcd",
   stxTxHash: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+  senderAddress: "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq",
   receiveAddress: "SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7",
 };
 
@@ -44,6 +47,7 @@ export default function TransactionPreviewPage() {
   const [confirmations, setConfirmations] = useState(0);
   const [autoAdvance, setAutoAdvance] = useState(false);
   const [showTooltip, setShowTooltip] = useState<string | null>(null);
+  const [showTxDetails, setShowTxDetails] = useState(false);
 
   // Calculate estimated time remaining based on confirmations
   const getEstimatedTimeRemaining = () => {
@@ -103,15 +107,136 @@ export default function TransactionPreviewPage() {
 
       {/* Main Card */}
       <div className="w-full max-w-[480px] bg-surface-fourth border border-explorer-border-secondary rounded-2xl shadow-sm p-6 space-y-6">
-        {/* Amount Summary */}
-        <div className="text-center pb-4 border-b border-explorer-border-secondary">
-          <p className="text-sm text-text-secondary mb-1">Depositing</p>
-          <p className="text-3xl font-bold text-text-primary">
-            {MOCK_TX.amount} BTC
-          </p>
-          <p className="text-sm text-text-tertiary">
-            ~{formatUsd(MOCK_TX.amount * MOCK_DATA.btcPrice)}
-          </p>
+        {/* Transaction Ticket */}
+        <div className="bg-surface-secondary/30 rounded-xl p-4 border border-explorer-border-secondary/50">
+          {/* Sent → Receive */}
+          <div className="flex items-stretch gap-4">
+            {/* You Sent */}
+            <div className="flex-1 text-center">
+              <p className="text-xs text-text-tertiary mb-1">You sent</p>
+              <p className="text-xl font-bold text-text-primary">
+                {MOCK_TX.amount} BTC
+              </p>
+              <p className="text-xs text-text-tertiary mt-1 font-mono">
+                {elideAddress(MOCK_TX.senderAddress, 6)}
+              </p>
+            </div>
+
+            {/* Arrow */}
+            <div className="flex items-center justify-center px-2">
+              <svg
+                className="w-6 h-6 text-text-tertiary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </div>
+
+            {/* You Receive */}
+            <div className="flex-1 text-center">
+              <p className="text-xs text-text-tertiary mb-1">You receive</p>
+              <p className="text-xl font-bold text-stacks-600 dark:text-stacks-400">
+                {MOCK_TX.receiveAmount} sBTC
+              </p>
+              <p className="text-xs text-text-tertiary mt-1 font-mono">
+                {elideAddress(MOCK_TX.receiveAddress, 6)}
+              </p>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-explorer-border-secondary/50 my-4" />
+
+          {/* Fee Breakdown */}
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-text-tertiary">Network fee</span>
+              <span className="text-text-secondary">
+                ~{MOCK_TX.networkFee} BTC (~{formatUsd(MOCK_TX.networkFee * MOCK_DATA.btcPrice)})
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-text-tertiary">Bridge fee</span>
+              <span className="text-text-secondary">0% (free)</span>
+            </div>
+            {getEstimatedTimeRemaining() && (
+              <div className="flex justify-between">
+                <span className="text-text-tertiary">Est. time remaining</span>
+                <span className="text-text-secondary font-medium">{getEstimatedTimeRemaining()}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Sponsored Callout */}
+          <div className="mt-4 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-stacks-100/50 dark:bg-stacks-700/20 border border-stacks-200/50 dark:border-stacks-600/50">
+            <svg className="w-4 h-4 text-stacks-600 dark:text-stacks-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+            </svg>
+            <span className="text-xs text-stacks-700 dark:text-stacks-300">
+              <span className="font-medium">Sponsored by Stacks Labs</span>
+              <span className="text-stacks-600/80 dark:text-stacks-400/80 ml-1">• No gas fees</span>
+            </span>
+          </div>
+
+          {/* Collapsible Transaction Details */}
+          <button
+            onClick={() => setShowTxDetails(!showTxDetails)}
+            className="w-full flex justify-between items-center text-xs text-text-tertiary hover:text-text-secondary mt-4 pt-3 border-t border-explorer-border-secondary/50"
+          >
+            <span>Transaction details</span>
+            <svg
+              className={`w-4 h-4 transition-transform ${showTxDetails ? "rotate-180" : ""}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {showTxDetails && (
+            <div className="mt-3 space-y-2 text-xs animate-in fade-in duration-200">
+              <div className="flex items-center justify-between">
+                <span className="text-text-tertiary">BTC Transaction</span>
+                <a
+                  href={`https://mempool.space/tx/${MOCK_TX.btcTxHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stacks-500 hover:text-stacks-600 font-mono flex items-center gap-1"
+                >
+                  {elideAddress(MOCK_TX.btcTxHash, 8)}
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-text-tertiary">STX Transaction</span>
+                {currentState === "complete" || currentState === "processing" ? (
+                  <a
+                    href={`https://explorer.stacks.co/txid/${MOCK_TX.stxTxHash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-stacks-500 hover:text-stacks-600 font-mono flex items-center gap-1"
+                  >
+                    {elideAddress(MOCK_TX.stxTxHash, 8)}
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                ) : (
+                  <span className="text-text-tertiary italic">Pending...</span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Progress Steps */}
@@ -214,7 +339,7 @@ export default function TransactionPreviewPage() {
                 Deposit Complete!
               </p>
               <p className="text-sm text-feedback-green-600/80 dark:text-feedback-green-400/80 mt-1">
-                You received {(MOCK_TX.amount - 0.00008).toFixed(8)} sBTC
+                You received {MOCK_TX.receiveAmount} sBTC
               </p>
             </div>
 

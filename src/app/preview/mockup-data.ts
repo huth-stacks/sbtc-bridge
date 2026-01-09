@@ -47,6 +47,14 @@ export const MOCK_DATA = {
       max: 10,
     },
   },
+  // Protocol stats for the trust header
+  protocolStats: {
+    btcLocked: 247.83, // BTC locked in protocol
+    sbtcSupply: 243.12, // Current sBTC supply
+    marketCap: 23700000, // USD market cap
+    uptime: 99.8, // 30-day uptime percentage
+    totalMinted: 892.45, // Total sBTC minted all time
+  },
 };
 
 // Helper to format BTC amounts
